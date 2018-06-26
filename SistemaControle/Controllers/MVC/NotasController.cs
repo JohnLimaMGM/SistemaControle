@@ -1,112 +1,121 @@
-﻿using SistemaControle.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using SistemaControle.Models;
 
-namespace SistemaControle.Controllers
+namespace SistemaControle.Controllers.MVC
 {
-    public class UsuariosController : Controller
+    public class NotasController : Controller
     {
         private ControleContext db = new ControleContext();
 
-        // GET: Usuarios
+        // GET: Notas
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            var notas = db.Notas.Include(n => n.GruposDetalhes);
+            return View(notas.ToList());
         }
 
-        // GET: Usuarios/Details/5
+        // GET: Notas/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Notas notas = db.Notas.Find(id);
+            if (notas == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(notas);
         }
 
-        // GET: Usuarios/Create
+        // GET: Notas/Create
         public ActionResult Create()
         {
+            ViewBag.GruposDetalhesId = new SelectList(db.GruposDetalhes, "GruposDetalhesId", "GruposDetalhesId");
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: Notas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,UserName,Nome,Sobrenome,Telefone,Endereco,Photo,Estudante,Professor")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "NotaId,GruposDetalhesId,Percentual,Nota")] Notas notas)
         {
             if (ModelState.IsValid)
             {
-                db.Usuarios.Add(usuario);
+                db.Notas.Add(notas);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(usuario);
+            ViewBag.GruposDetalhesId = new SelectList(db.GruposDetalhes, "GruposDetalhesId", "GruposDetalhesId", notas.GruposDetalhesId);
+            return View(notas);
         }
 
-        // GET: Usuarios/Edit/5
+        // GET: Notas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Notas notas = db.Notas.Find(id);
+            if (notas == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            ViewBag.GruposDetalhesId = new SelectList(db.GruposDetalhes, "GruposDetalhesId", "GruposDetalhesId", notas.GruposDetalhesId);
+            return View(notas);
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: Notas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,UserName,Nome,Sobrenome,Telefone,Endereco,Photo,Estudante,Professor")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "NotaId,GruposDetalhesId,Percentual,Nota")] Notas notas)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
+                db.Entry(notas).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(usuario);
+            ViewBag.GruposDetalhesId = new SelectList(db.GruposDetalhes, "GruposDetalhesId", "GruposDetalhesId", notas.GruposDetalhesId);
+            return View(notas);
         }
 
-        // GET: Usuarios/Delete/5
+        // GET: Notas/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Notas notas = db.Notas.Find(id);
+            if (notas == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(notas);
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: Notas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuario);
+            Notas notas = db.Notas.Find(id);
+            db.Notas.Remove(notas);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

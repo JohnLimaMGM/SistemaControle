@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,10 @@ namespace SistemaControle.Models
 
         public int UserId { get; set; }
 
+        [JsonIgnore]
         public virtual Usuario Professor { get; set; }
+
+        [JsonIgnore]
 
         public virtual ICollection<GruposDetalhes> GruposDetalhes { get; set; }
 

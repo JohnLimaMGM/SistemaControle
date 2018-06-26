@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,14 +16,17 @@ namespace SistemaControle.Models
 
         public int UserId { get; set; }
 
+        
+        [JsonIgnore]
         public virtual Grupos Grupos { get; set; }
 
+
+        [JsonIgnore]
         public virtual Usuario Estudante { get; set; }
 
-        public string GruposEstudante { get { return string.Format("{0} / {1}", Grupos.Descricao, Estudante.NomeCompleto); } }
+        public string GrupoEstudante { get { return string.Format("{0} / {1}", Grupos.Descricao, Estudante.NomeCompleto); } }
 
         public virtual ICollection<Notas> Notas { get; set; }
-
 
     }
 }

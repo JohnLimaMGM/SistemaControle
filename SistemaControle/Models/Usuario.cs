@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,18 +38,21 @@ namespace SistemaControle.Models
         [StringLength(100, ErrorMessage = " O Campo {0} pode ter no máximo {1} e minimo {2} caracteres ", MinimumLength = 10)]
         public string Endereco { get; set; }
 
+        [Display(Name = "Imagem")]
         [DataType(DataType.ImageUrl)]
         public string Photo { get; set; }
 
-        [Display(Name = "É Estudante")]
+        [Display(Name = "Estudante")]
         public bool Estudante { get; set; }
 
-        [Display(Name = "É Professor")]
+        [Display(Name = "Professor")]
         public bool Professor { get; set; }
 
-     //  public virtual ICollection<Grupos> Grupos { get; set; }
+        //[JsonIgnore]
+        public virtual ICollection<Grupos> Grupos { get; set; }
 
-      // public virtual ICollection<GruposDetalhes> GruposDetalhes { get; set; }
+         [JsonIgnore]
+          public virtual ICollection<GruposDetalhes> GruposDetalhes { get; set; }
+
     }
-
 }
