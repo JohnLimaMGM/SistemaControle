@@ -40,7 +40,10 @@ namespace SistemaControle.Controllers
 
         public ApplicationUserManager UserManager
         {
-            get => _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
             private set
             {
                 _userManager = value;

@@ -30,10 +30,13 @@ namespace SistemaControle.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get => _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            private set
+            get
             {
-                _signInManager = value;
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set 
+            { 
+                _signInManager = value; 
             }
         }
 
